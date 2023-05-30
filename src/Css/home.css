@@ -1,0 +1,12 @@
+.linktopage {
+  color: #222222;
+  text-decoration: none;
+}
+.article {
+  border-bottom: 1px solid;
+  margin-top: 20px;
+}
+.postbody {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}

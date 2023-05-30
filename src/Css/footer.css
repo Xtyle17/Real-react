@@ -1,0 +1,14 @@
+footer {
+  width: 100%;
+  background-color: plum;
+  color: aliceblue;
+  display: grid;
+  place-content: center;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+}
+#footPost {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 30px;
+}

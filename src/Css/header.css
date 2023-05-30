@@ -1,0 +1,18 @@
+header {
+  position: fixed;
+  width: 100%;
+  background-color: mediumpurple;
+  display: flex;
+  align-items: center;
+  padding-left: 50px;
+}
+#headPost {
+  font-family: "Courier New", Courier, monospace;
+  text-decoration: none;
+}
+.linksToHead {
+  text-decoration: none;
+}
+.linksToHead:active {
+  color: purple;
+}
