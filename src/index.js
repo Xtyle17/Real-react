@@ -10,10 +10,19 @@ import "./Css/about.css";
 import "./Css/footer.css";
 import App from "./App";
 import { BrowserRouter as Router } from "react-router-dom";
+// import { StoreProvider } from "easy-peasy";
+// import { store } from "./store";
+// import { Provider } from "react-redux";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <Router>
-    <App />
-  </Router>
+  <React.StrictMode>
+    {/* <StoreProvider value={store}> */}
+    {/* <Provider value={store}> */}
+    <Router>
+      <App />
+    </Router>
+    {/* </Provider> */}
+    {/* </StoreProvider> */}
+  </React.StrictMode>
 );

@@ -2,23 +2,24 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import DataContext from "./context/dataContext";
 import api from "./api/post";
+import { ACTIONS } from "./Reducer";
 
 const PostPage = () => {
   const history = useNavigate();
-  const { posts, setPosts } = useContext(DataContext);
+  const { state, dispatch } = useContext(DataContext);
   const { id } = useParams();
 
   const handleDelete = async (id) => {
     try {
       await api.delete(`/posts/${id}`);
-      const postList = posts.filter((post) => post.id !== id);
-      setPosts(postList);
+      const postList = state.posts.filter((post) => post.id !== id);
+      dispatch({ type: ACTIONS.SET_POSTS, setPost: postList });
       history("/");
     } catch (err) {
       console.log(err.message);
     }
   };
-  const post = posts.find((post) => post.id.toString() === id);
+  const post = state.posts.find((post) => post.id.toString() === id);
   if (!post) {
     return (
       <main>
@@ -36,7 +37,7 @@ const PostPage = () => {
   return (
     <main>
       <article className="postMain">
-        {posts && (
+        {state.posts && (
           <>
             <h2>{post.title}</h2>
             <p>{post.datetime}</p>

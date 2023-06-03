@@ -4,25 +4,34 @@ import { format } from "date-fns";
 import api from "./api/post";
 
 import DataContext from "./context/dataContext";
+import { ACTIONS } from "./Reducer";
 
 const EditPost = ({}) => {
   const [editTitle, setEditTitle] = useState([]);
   const [editBody, setEditBody] = useState([]);
-  const { posts, setPosts } = useContext(DataContext);
+  const { state, dispatch } = useContext(DataContext);
   const { id } = useParams();
   const history = useNavigate();
-  const post = posts.find((post) => post.id.toString() === id);
+  const post = state.posts.find((post) => post.id.toString() === id);
 
   const handleEdit = async (id) => {
     const datetime = format(new Date(), "MMMM dd, yyyy pp");
-    const editedPost = { id, title: editTitle, datetime, body: editBody };
+    const editedPost = {
+      id,
+      title: state.title,
+      datetime,
+      body: state.body,
+    };
     try {
       const response = await api.put(`/posts/${id}`, editedPost);
-      setPosts(
-        posts.map((post) => (post.id === id ? { ...response.data } : post))
-      );
-      setEditTitle("");
-      setEditBody("");
+      dispatch({
+        type: ACTIONS.SET_POSTS,
+        setPost: state.posts.map((post) =>
+          post.id === id ? { ...response.data } : post
+        ),
+      });
+      dispatch({ type: ACTIONS.EDIT_TITLE, payload: "" });
+      dispatch({ type: ACTIONS.EDIT_BODY, payload: "" });
       history("/");
     } catch (err) {
       console.log(err.message);
@@ -31,10 +40,10 @@ const EditPost = ({}) => {
 
   useEffect(() => {
     if (post) {
-      setEditTitle(post.title);
-      setEditBody(post.body);
+      dispatch({ type: ACTIONS.EDIT_TITLE, payload: post.title });
+      dispatch({ type: ACTIONS.EDIT_BODY, payload: post.body });
     }
-  }, [post, setEditBody, setEditTitle]);
+  }, [post, dispatch]);
 
   return (
     <main>
@@ -47,15 +56,19 @@ const EditPost = ({}) => {
               id="addPosttitle"
               type="text"
               required
-              value={editTitle}
-              onChange={(e) => setEditTitle(e.target.value)}
+              value={state.title}
+              onChange={(e) =>
+                dispatch({ type: ACTIONS.EDIT_TITLE, payload: e.target.value })
+              }
             />
             <label>Text:</label>
             <textarea
               id="addPostbody"
               required
-              value={editBody}
-              onChange={(e) => setEditBody(e.target.value)}
+              value={state.body}
+              onChange={(e) =>
+                dispatch({ type: ACTIONS.EDIT_BODY, payload: e.target.value })
+              }
             />
             <button
               type="submit"

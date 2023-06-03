@@ -9,11 +9,14 @@ import EditPost from "./EditPost";
 import MissingPage from "./MissingPage";
 import { Route, Routes } from "react-router-dom";
 import { DataProvider } from "./context/dataContext";
+import { Provider } from "react-redux";
+import { store } from "./store";
 
 function App() {
   return (
     <div className="App">
       <Header Title="My Blog App" />
+      {/* <Provider store={store}> */}
       <DataProvider>
         <Nav className="Nav" />
         <main className="maincss">
@@ -27,6 +30,7 @@ function App() {
           </Routes>
         </main>
       </DataProvider>
+      {/* </Provider> */}
       <Footer />
     </div>
   );
